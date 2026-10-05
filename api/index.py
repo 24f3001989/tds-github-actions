@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, response
 from fastapi.middleware.cors import CORSMiddleware
 
 from .data import DATA
@@ -8,8 +8,10 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["POST", "OPTIONS"],
-    allow_headers=["*"],
+    allow_headers=["*"]
+    expose_headers=["*"],
 )
 
 def percentile(values, p):
@@ -32,10 +34,6 @@ def percentile(values, p):
 @app.get('/')
 def root():
     return {"message": "Hello, World!"}
-
-# @app.options('/api/latency')
-# async def options_handler():
-#     return Response(status_code=200)
 
 @app.post('/api/latency')
 async def get_latency_mat(request: Request):
