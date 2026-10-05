@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, response
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from .data import DATA
@@ -10,7 +10,7 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=False,
     allow_methods=["POST", "OPTIONS"],
-    allow_headers=["*"]
+    allow_headers=["*"],
     expose_headers=["*"],
 )
 
@@ -67,4 +67,4 @@ async def get_latency_mat(request: Request):
             ),
         })
 
-        return {'results': result}
+    return {'results': result}
