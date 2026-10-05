@@ -58,13 +58,12 @@ async def get_latency_mat(request: Request):
         uptimes = [r['uptime_pct'] for r in rows]
 
         result.append({
-            'region' : region,
-            'avg_latency' : sum(latencies) / len(latencies),
-            'p95_latency' : percentile(latencies, 95),
-            'avg_uptime' : sum(uptimes) / len(uptimes),
-            'breaches' : sum(
-                latency > threshold_ms for latency in latencies
-            ),
+            "region": region,
+            "avg_latency": round(sum(latencies) / len(latencies), 2),
+            "p95_latency": round(percentile(latencies, 95), 2),
+            "avg_uptime": round(sum(uptimes) / len(uptimes), 3),
+            "breaches": sum(1 for l in latencies if l > threshold_ms)
         })
 
-    return {'results': result}
+    return {'regions': result}
+
